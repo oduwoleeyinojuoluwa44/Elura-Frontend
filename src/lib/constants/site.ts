@@ -1,7 +1,6 @@
 export const navLinks = [
   { href: "/discover", label: "Discover" },
-  { href: "/artist/jadeglow", label: "Artist Profile" },
-  { href: "/booking", label: "Booking" },
+  { href: "/onboarding", label: "Profile Setup" },
   { href: "/dashboard", label: "Dashboard" },
 ] as const;
 
@@ -32,4 +31,3 @@ export const aiFormOptions = {
   skinTypes: ["Oily", "Dry", "Combination", "Sensitive", "Normal"],
   finishes: ["Soft Glam", "Natural Dewy", "Matte Bridal", "Editorial Glow"],
 } as const;
-

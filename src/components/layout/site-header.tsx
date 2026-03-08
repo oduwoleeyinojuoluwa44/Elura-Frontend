@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
+import { AuthActions } from "@/components/layout/auth-actions";
 import { navLinks } from "@/lib/constants/site";
 
 export function SiteHeader() {
@@ -31,16 +31,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <Link href="/signup" className="hidden md:block">
-            <Button variant="ghost">Sign in</Button>
-          </Link>
-          <Link href="/signup">
-            <Button>Join as artist</Button>
-          </Link>
-        </div>
+        <AuthActions />
       </div>
     </header>
   );
 }
-

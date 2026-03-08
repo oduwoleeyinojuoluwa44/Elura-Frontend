@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Sparkles, Stars, WandSparkles } from "lucide-react";
+import { ArrowUpRight, Compass, Sparkles, Stars } from "lucide-react";
 
 import { ArtistCard } from "@/components/cards/artist-card";
 import { SectionHeading } from "@/components/sections/section-heading";
@@ -19,9 +19,9 @@ const valueProps = [
       "Clients can compare artists by location, specialty, and price range without DM friction.",
   },
   {
-    title: "Structured booking",
+    title: "Published public profiles",
     description:
-      "Move inquiries out of chaotic chats into a format artists can respond to with confidence.",
+      "Artists can now save and publish profiles that appear on public routes backed by the live API contract.",
   },
 ];
 
@@ -74,11 +74,11 @@ export default function HomePage() {
             </Card>
             <Card className="space-y-3">
               <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-                AI utility
+                Live profile flow
               </p>
               <p className="font-display text-4xl">1</p>
               <p className="text-sm leading-6 text-[var(--text-muted)]">
-                Consultation-pack workflow for premium appointment preparation.
+                Auth, onboarding, discovery, and public profile surfaces are now connected end to end.
               </p>
             </Card>
           </div>
@@ -92,13 +92,13 @@ export default function HomePage() {
               </p>
               <ol className="space-y-4 text-sm text-[var(--text-muted)]">
                 <li>01. Sign up with email and secure session setup.</li>
-                <li>02. Build a polished public profile with specialties and pricing.</li>
-                <li>03. Upload portfolio work and turn the profile into a booking surface.</li>
-                <li>04. Get discovered by clients browsing with confidence.</li>
+                <li>02. Confirm the session through the auth flow and open onboarding.</li>
+                <li>03. Save or publish a polished public profile with specialties and pricing.</li>
+                <li>04. Get discovered through the live artist directory.</li>
               </ol>
-              <Link href="/dashboard/ai-consultation" className="inline-flex">
-                <Button variant="ghost" icon={<WandSparkles size={16} />}>
-                  View AI workflow
+              <Link href="/discover" className="inline-flex">
+                <Button variant="ghost" icon={<Compass size={16} />}>
+                  See live discovery
                 </Button>
               </Link>
             </div>

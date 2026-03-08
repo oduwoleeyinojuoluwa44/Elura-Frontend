@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div>
           <p className="font-display text-2xl text-white">Elura</p>
           <p className="mt-2 max-w-md leading-6">
-            Premium discovery and booking infrastructure for makeup artists.
+            Premium discovery and public profile infrastructure for makeup artists.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-5">
@@ -17,8 +17,8 @@ export function SiteFooter() {
           <Link href="/dashboard" className="transition hover:text-white">
             Dashboard
           </Link>
-          <Link href="/dashboard/ai-consultation" className="transition hover:text-white">
-            AI consultation
+          <Link href="/onboarding" className="transition hover:text-white">
+            Profile setup
           </Link>
         </div>
       </div>

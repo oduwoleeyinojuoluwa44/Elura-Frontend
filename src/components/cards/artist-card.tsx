@@ -9,11 +9,17 @@ interface ArtistCardProps {
 }
 
 export function ArtistCard({ artist }: ArtistCardProps) {
+  const specialtyLabel =
+    artist.specialty.length > 0 ? artist.specialty.join(" / ") : "Specialty pending";
+
   return (
     <Card className="group overflow-hidden p-0">
       <div className="relative aspect-[4/5] overflow-hidden">
         <Image
-          src={artist.profileImageUrl ?? "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80"}
+          src={
+            artist.profileImageUrl ??
+            "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80"
+          }
           alt={artist.fullName}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
@@ -29,12 +35,10 @@ export function ArtistCard({ artist }: ArtistCardProps) {
       <div className="space-y-3 p-5">
         <div className="space-y-1">
           <h3 className="text-xl font-semibold text-white">{artist.fullName}</h3>
-          <p className="text-sm text-[var(--text-muted)]">
-            {artist.specialty.join(" · ")}
-          </p>
+          <p className="text-sm text-[var(--text-muted)]">{specialtyLabel}</p>
         </div>
         <p className="line-clamp-3 text-sm leading-6 text-[var(--text-muted)]">
-          {artist.bio}
+          {artist.bio ?? "Bio pending. This profile is published and ready for discovery."}
         </p>
         <div className="flex items-center justify-between gap-4 border-t border-white/10 pt-4">
           <span className="text-sm text-white/90">
@@ -51,4 +55,3 @@ export function ArtistCard({ artist }: ArtistCardProps) {
     </Card>
   );
 }
-
