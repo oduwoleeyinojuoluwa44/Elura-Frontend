@@ -51,9 +51,9 @@ export function DiscoverDirectory() {
           response.data.length === 0
             ? {
                 tone: "info",
-                title: "No artists matched these exact filters",
+                title: "No artists matched that search",
                 description:
-                  "The current discovery endpoint only supports exact matches for location, specialty, and price range.",
+                  "Try broadening the city, specialty, or price range to see more artists.",
               }
             : null,
         );
@@ -61,9 +61,8 @@ export function DiscoverDirectory() {
         setArtists([]);
         setNotice({
           tone: "error",
-          title: "Network error",
-          description:
-            "The discovery endpoint could not be reached. Confirm the backend is running.",
+          title: "Could not load artists",
+          description: "Please try again in a moment.",
         });
         setResolved(true);
       }

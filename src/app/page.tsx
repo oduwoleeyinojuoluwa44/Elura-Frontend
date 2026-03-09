@@ -1,182 +1,57 @@
 import Link from "next/link";
-import { ArrowUpRight, Compass, Sparkles, Stars } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-import { ArtistCard } from "@/components/cards/artist-card";
-import { SectionHeading } from "@/components/sections/section-heading";
+import { BackgroundEffect } from "@/components/graphics/background-effect";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { mockArtists } from "@/lib/constants/mock-data";
-
-const valueProps = [
-  {
-    title: "Portfolio-first identity",
-    description:
-      "Showcase artistry in a space built for trust, not algorithms or casual social posting.",
-  },
-  {
-    title: "Professional discovery",
-    description:
-      "Clients can compare artists by location, specialty, and price range without DM friction.",
-  },
-  {
-    title: "Published public profiles",
-    description:
-      "Artists can now save and publish profiles that appear on public routes backed by the live API contract.",
-  },
-];
 
 export default function HomePage() {
   return (
-    <div className="pb-24">
-      <section className="mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-10 md:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:pt-16">
-        <div className="space-y-8">
-          <div className="eyebrow-chip">Premium beauty x minimal product</div>
-          <div className="max-w-3xl space-y-5">
-            <h1 className="font-display text-5xl leading-none text-white md:text-7xl">
-              Where makeup artists finally look as professional as their work.
-            </h1>
-            <p className="max-w-2xl text-base leading-8 text-[var(--text-muted)] md:text-lg">
-              Elura replaces the Instagram workaround with a premium booking
-              platform built around portfolio quality, structured discovery, and
-              clean client requests.
-            </p>
-          </div>
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <Link href="/signup">
-              <Button size="lg" icon={<Sparkles size={16} />}>
-                Join as an artist
-              </Button>
-            </Link>
-            <Link href="/discover">
-              <Button size="lg" variant="secondary" icon={<ArrowUpRight size={16} />}>
-                Browse artists
-              </Button>
-            </Link>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Card className="space-y-3">
-              <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-                MVP traction
-              </p>
-              <p className="font-display text-4xl">50+</p>
-              <p className="text-sm leading-6 text-[var(--text-muted)]">
-                Artist profiles targeted for the first onboarding wave.
-              </p>
-            </Card>
-            <Card className="space-y-3">
-              <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-                Booking target
-              </p>
-              <p className="font-display text-4xl">20+</p>
-              <p className="text-sm leading-6 text-[var(--text-muted)]">
-                Structured requests submitted in the first MVP cycle.
-              </p>
-            </Card>
-            <Card className="space-y-3">
-              <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-                Live profile flow
-              </p>
-              <p className="font-display text-4xl">1</p>
-              <p className="text-sm leading-6 text-[var(--text-muted)]">
-                Auth, onboarding, discovery, and public profile surfaces are now connected end to end.
-              </p>
-            </Card>
-          </div>
-        </div>
+    <div className="relative isolate overflow-hidden">
+      <BackgroundEffect />
 
-        <Card className="relative overflow-hidden border-white/12 p-0">
-          <div className="grid gap-0 md:grid-cols-[0.9fr_1.1fr]">
-            <div className="space-y-5 border-b border-white/10 p-6 md:border-b-0 md:border-r">
-              <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-                Artist journey
+      <section className="relative min-h-screen">
+        <div className="mx-auto flex min-h-screen max-w-[1200px] items-center justify-center px-5 pb-20 pt-28 md:px-8 md:pt-32">
+          <div className="home-reveal relative w-full max-w-[800px] text-center">
+            <div className="relative">
+              <h1 className="mx-auto max-w-[780px] text-[2.5rem] font-semibold leading-[0.92] tracking-[-0.06em] text-white md:text-[4.5rem]">
+                Stop chasing clients.
+                <span className="mt-2 block text-[var(--accent-color)]">
+                  Start getting chosen.
+                </span>
+              </h1>
+
+              <p className="mx-auto mt-6 max-w-[600px] text-[1rem] leading-8 text-[var(--text-muted)] md:text-[1.2rem]">
+                <span className="font-script text-[2rem] leading-none text-[var(--brand-wordmark-color)] md:text-[2.35rem]">
+                  Elura
+                </span>{" "}
+                gives artists a premium presence and gives vendors a quieter way to
+                discover beauty talent worth booking.
               </p>
-              <ol className="space-y-4 text-sm text-[var(--text-muted)]">
-                <li>01. Sign up with email and secure session setup.</li>
-                <li>02. Confirm the session through the auth flow and open onboarding.</li>
-                <li>03. Save or publish a polished public profile with specialties and pricing.</li>
-                <li>04. Get discovered through the live artist directory.</li>
-              </ol>
-              <Link href="/discover" className="inline-flex">
-                <Button variant="ghost" icon={<Compass size={16} />}>
-                  See live discovery
-                </Button>
-              </Link>
-            </div>
-            <div className="space-y-5 p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-                    Discovery preview
-                  </p>
-                  <h2 className="mt-2 font-display text-4xl text-white">
-                    Trust starts with the work.
-                  </h2>
-                </div>
-                <Stars className="text-[var(--accent-color)]" />
-              </div>
-              <div className="grid gap-4">
-                {mockArtists.slice(0, 2).map((artist) => (
-                  <div
-                    key={artist.id}
-                    className="rounded-[24px] border border-white/10 bg-black/25 p-4"
+
+              <div className="mt-9">
+                <Link href="/signup">
+                  <Button
+                    size="lg"
+                    className="h-[46px] px-[1.65rem] text-[0.94rem]"
+                    icon={<ArrowRight size={16} />}
                   >
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <p className="text-lg font-semibold text-white">
-                          {artist.fullName}
-                        </p>
-                        <p className="text-sm text-[var(--text-muted)]">
-                          {artist.location} · {artist.specialty.join(", ")}
-                        </p>
-                      </div>
-                      <span className="rounded-full bg-white/6 px-3 py-1 text-xs text-white/80">
-                        {artist.priceRange}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                    Join as an artist
+                  </Button>
+                </Link>
               </div>
+
+              <p className="mt-4 text-sm text-white/52">
+                Vendors and planners can explore talent through{" "}
+                <Link
+                  href="/discover"
+                  className="text-white/72 transition hover:text-[var(--accent-color)]"
+                >
+                  discovery
+                </Link>
+                .
+              </p>
             </div>
           </div>
-        </Card>
-      </section>
-
-      <section className="mx-auto max-w-7xl space-y-8 px-5 py-16 md:px-8">
-        <SectionHeading
-          eyebrow="Why Elura"
-          title="A disciplined MVP built around trust, bookings, and portfolio quality."
-          description="The product avoids social-feed noise and generic marketplace clutter. Every screen points the artist toward professional identity and the client toward confident booking."
-        />
-        <div className="grid gap-5 lg:grid-cols-3">
-          {valueProps.map((item) => (
-            <Card key={item.title} className="space-y-4">
-              <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-                Core value
-              </p>
-              <h3 className="font-display text-3xl text-white">{item.title}</h3>
-              <p className="text-sm leading-7 text-[var(--text-muted)]">
-                {item.description}
-              </p>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl space-y-8 px-5 py-16 md:px-8">
-        <SectionHeading
-          eyebrow="Artist preview"
-          title="Discovery cards that prioritize the signals clients actually use."
-          description="Location, specialty, price range, and portfolio confidence are built into the first glance."
-          action={
-            <Link href="/discover">
-              <Button variant="secondary">Open discovery</Button>
-            </Link>
-          }
-        />
-        <div className="grid gap-5 lg:grid-cols-3">
-          {mockArtists.map((artist) => (
-            <ArtistCard key={artist.id} artist={artist} />
-          ))}
         </div>
       </section>
     </div>

@@ -12,12 +12,11 @@ export default function AiConsultationPage() {
       <div className="space-y-3">
         <p className="eyebrow-chip w-max">AI consultation pack</p>
         <h1 className="font-display text-5xl text-white">
-          Utility-first AI for cleaner prep, calmer appointments, and sharper service.
+          Utility-first prep for calmer appointments and sharper service.
         </h1>
         <p className="max-w-3xl text-sm leading-7 text-[var(--text-muted)]">
-          The endpoint is reserved today, so the page scaffolds both the input
-          experience and the result structure without depending on generated
-          content yet.
+          This workflow is still a preview. The structure is here so the eventual AI
+          experience feels useful the moment it opens.
         </p>
       </div>
 
@@ -80,7 +79,9 @@ export default function AiConsultationPage() {
             </label>
             <Textarea id="notes" placeholder="Outdoor ceremony, humid venue, client prefers soft glow." />
           </div>
-          <Button size="lg">Generate consultation pack</Button>
+          <Button size="lg" disabled>
+            Generate consultation pack
+          </Button>
         </Card>
 
         <div className="grid gap-5 md:grid-cols-2">
@@ -88,7 +89,7 @@ export default function AiConsultationPage() {
             <h2 className="font-display text-3xl text-white">Questionnaire</h2>
             <ul className="space-y-3 text-sm leading-7 text-[var(--text-muted)]">
               {mockConsultationPack.questionnaire.map((item) => (
-                <li key={item}>• {item}</li>
+                <li key={item}>- {item}</li>
               ))}
             </ul>
           </Card>
@@ -102,7 +103,7 @@ export default function AiConsultationPage() {
             <h2 className="font-display text-3xl text-white">Kit checklist</h2>
             <ul className="space-y-3 text-sm leading-7 text-[var(--text-muted)]">
               {mockConsultationPack.kitChecklist.map((item) => (
-                <li key={item}>• {item}</li>
+                <li key={item}>- {item}</li>
               ))}
             </ul>
           </Card>
@@ -110,7 +111,7 @@ export default function AiConsultationPage() {
             <h2 className="font-display text-3xl text-white">Timeline + tips</h2>
             <ul className="space-y-3 text-sm leading-7 text-[var(--text-muted)]">
               {mockConsultationPack.timeline.concat(mockConsultationPack.artistTips).map((item) => (
-                <li key={item}>• {item}</li>
+                <li key={item}>- {item}</li>
               ))}
             </ul>
           </Card>

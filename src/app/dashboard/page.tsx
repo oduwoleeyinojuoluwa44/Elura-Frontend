@@ -1,69 +1,67 @@
 import Link from "next/link";
 import { ArrowRight, Compass, Images } from "lucide-react";
 
-import { BackendHealthPanel } from "@/components/dashboard/backend-health-panel";
 import { DashboardSessionPanel } from "@/components/dashboard/dashboard-session-panel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-const dashboardPanels = [
+const studioNotes = [
   {
-    title: "Public profile flow",
-    body: "The live path today is straightforward: sign in, save or publish through `POST /api/artists`, then verify the result on the public artist route.",
+    title: "Public profile",
+    body: "Keep your page current so clients get a crisp first impression the moment they land on it.",
   },
   {
-    title: "Portfolio uploads",
-    body: "The portfolio route is still reserved, so the dashboard keeps this as a visible placeholder instead of pretending uploads already work.",
+    title: "Portfolio gallery",
+    body: "A fuller image-led gallery is opening soon. For now, your profile carries the tone.",
   },
   {
     title: "Booking requests",
-    body: "Client request intake remains reserved too. The current MVP stops at discovery and the public artist profile.",
+    body: "Structured inquiries are next. The current experience focuses on presence and discovery.",
   },
 ];
 
 export default function DashboardPage() {
   return (
-    <div className="mx-auto max-w-7xl space-y-8 px-5 py-16 md:px-8">
+    <div className="app-page space-y-8">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-3">
+        <div className="app-intro">
           <p className="eyebrow-chip w-max">Artist dashboard</p>
-          <h1 className="font-display text-5xl text-white">
-            A clean control center for the endpoints that are actually live.
+          <h1 className="app-title">
+            Your studio, pared back.
           </h1>
-          <p className="max-w-3xl text-sm leading-7 text-[var(--text-muted)]">
-            This dashboard is anchored to session truth, backend health, and the
-            published profile flow instead of reserved features.
+          <p className="app-copy">
+            Elura keeps the artist side calm. Update the page, share it with confidence,
+            and let the rest of the product open in stages.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
           <Link href="/onboarding">
-            <Button icon={<ArrowRight size={16} />}>Edit public profile</Button>
+            <Button icon={<ArrowRight size={16} />}>Edit profile</Button>
           </Link>
           <Link href="/discover">
             <Button variant="secondary" icon={<Compass size={16} />}>
-              Open discovery
+              Explore discovery
             </Button>
           </Link>
         </div>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="grid gap-5 lg:grid-cols-[1.02fr_0.98fr]">
         <DashboardSessionPanel />
-        <BackendHealthPanel />
-      </div>
 
-      <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
         <Card className="space-y-5">
           <div className="flex items-center gap-3">
-            <Images className="text-[var(--accent-color)]" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[rgba(232,174,183,0.16)] text-[var(--accent-color)]">
+              <Images size={18} />
+            </div>
             <div>
-              <p className="text-sm font-semibold text-white">Reserved feature staging area</p>
+              <p className="text-sm font-semibold text-white">What opens next</p>
               <p className="text-sm text-[var(--text-muted)]">
-                The dashboard still keeps room for future routes without pretending
-                those routes already exist.
+                The next layers of the product are already taking shape.
               </p>
             </div>
           </div>
+
           <div className="grid gap-4 md:grid-cols-3">
             {[1, 2, 3].map((item) => (
               <div
@@ -72,25 +70,21 @@ export default function DashboardPage() {
               />
             ))}
           </div>
-          <div className="flex items-center justify-between rounded-[24px] border border-white/10 bg-black/20 px-5 py-4">
-            <p className="text-sm text-[var(--text-muted)]">
-              Portfolio uploads and booking requests stay visibly parked here until the
-              backend moves them out of reserved status.
-            </p>
-            <Button variant="secondary" disabled>
-              Reserved
-            </Button>
-          </div>
-        </Card>
 
-        <div className="grid gap-5">
-          {dashboardPanels.map((panel) => (
-            <Card key={panel.title} className="space-y-3">
-              <p className="text-sm font-semibold text-white">{panel.title}</p>
-              <p className="text-sm leading-7 text-[var(--text-muted)]">{panel.body}</p>
-            </Card>
-          ))}
-        </div>
+          <p className="text-sm leading-7 text-[var(--text-muted)]">
+            Portfolio galleries and booking tools are coming next. For now, the profile
+            is the center of gravity.
+          </p>
+        </Card>
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-3">
+        {studioNotes.map((item) => (
+          <Card key={item.title} className="space-y-3">
+            <p className="text-sm font-semibold text-white">{item.title}</p>
+            <p className="text-sm leading-7 text-[var(--text-muted)]">{item.body}</p>
+          </Card>
+        ))}
       </div>
     </div>
   );

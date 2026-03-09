@@ -13,17 +13,17 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-[linear-gradient(135deg,var(--accent-color),#c88c96)] text-[var(--bg-color)] shadow-[0_10px_40px_rgba(232,174,183,0.2)] hover:brightness-110",
+    "bg-[linear-gradient(135deg,#efbcc6,#dca0ac)] text-[var(--bg-color)] shadow-[0_12px_32px_rgba(232,174,183,0.14)] hover:brightness-[1.03] hover:shadow-[0_18px_40px_rgba(232,174,183,0.18)]",
   secondary:
-    "border border-white/12 bg-white/5 text-white hover:border-white/20 hover:bg-white/8",
+    "border border-[rgba(232,174,183,0.18)] bg-[rgba(232,174,183,0.1)] text-white hover:bg-[rgba(232,174,183,0.14)] hover:shadow-[0_14px_28px_rgba(232,174,183,0.08)]",
   ghost:
-    "border border-transparent bg-transparent text-[var(--text-muted)] hover:text-white",
+    "border border-transparent bg-transparent text-[var(--text-muted)] hover:bg-white/[0.04] hover:text-white",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: "h-10 px-4 text-sm",
-  md: "h-12 px-5 text-sm",
-  lg: "h-14 px-6 text-base",
+  sm: "h-9 px-4 text-[0.92rem]",
+  md: "h-10 px-5 text-[0.93rem]",
+  lg: "h-11 px-6 text-[0.94rem]",
 };
 
 export function Button({
@@ -37,7 +37,7 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-full font-medium transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-color)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-color)] disabled:cursor-not-allowed disabled:opacity-60",
+        "inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-[-0.01em] transition-[transform,background-color,border-color,color,box-shadow,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-px active:translate-y-0 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-color)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-color)] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:active:scale-100",
         variantClasses[variant],
         sizeClasses[size],
         className,
@@ -49,4 +49,3 @@ export function Button({
     </button>
   );
 }
-

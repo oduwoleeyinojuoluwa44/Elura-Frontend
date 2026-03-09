@@ -15,7 +15,7 @@ export async function generateMetadata({
 
   return {
     title: `@${username} | Elura artist`,
-    description: "Public artist profile powered by the live Elura artist endpoint.",
+    description: "A public Elura artist profile.",
   };
 }
 
@@ -23,7 +23,7 @@ export default async function ArtistPage({ params }: ArtistPageProps) {
   const { username } = await params;
 
   return (
-    <div className="mx-auto max-w-7xl px-5 py-16 md:px-8">
+    <div className="app-page">
       <ArtistProfileClient username={username} />
     </div>
   );

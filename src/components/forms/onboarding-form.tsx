@@ -40,6 +40,12 @@ const initialState: ProfileFormState = {
   isPublished: false,
 };
 
+const profileGuidance = [
+  "Use the name clients already know you by.",
+  "Pick the specialties you want to be remembered for first.",
+  "Publish only when the page feels complete and true to your work.",
+];
+
 function normalizeOptional(value: string) {
   const trimmed = value.trim();
   return trimmed ? trimmed : null;
@@ -159,15 +165,14 @@ export function OnboardingForm() {
           tone: "success",
           title: response.data.isPublished ? "Profile published" : "Draft saved",
           description: response.data.isPublished
-            ? "Your public profile is now available through the published artist endpoint."
-            : "Your draft is saved. Turn on publishing when location and specialties are complete.",
+            ? "Your public page is now live and ready to share."
+            : "Your draft is safe. Publish whenever the page feels ready.",
         });
       } catch {
         setNotice({
           tone: "error",
-          title: "Network error",
-          description:
-            "The profile endpoint could not be reached. Confirm the backend is running and try again.",
+          title: "Something went wrong",
+          description: "We could not save that right now. Please try again.",
         });
       }
     });
@@ -188,8 +193,8 @@ export function OnboardingForm() {
       <Card className="space-y-5">
         <StatusNotice
           tone="error"
-          title="Sign in to create your artist profile"
-          description="The profile save endpoint requires the authenticated Supabase session cookie."
+          title="Sign in to shape your profile"
+          description="Your account needs to be active before you can start building the public page."
           action={
             <Link href="/signup?mode=signin">
               <Button variant="secondary">Go to sign in</Button>
@@ -204,10 +209,10 @@ export function OnboardingForm() {
     <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
       <Card className="space-y-6">
         <div className="space-y-3">
-          <p className="eyebrow-chip w-max">Authenticated profile setup</p>
+          <p className="eyebrow-chip w-max">Profile editor</p>
           <p className="text-sm leading-7 text-[var(--text-muted)]">
-            Signed in as <span className="text-white">{user.email}</span>. This form saves
-            directly to the implemented `POST /api/artists` endpoint.
+            Signed in as <span className="text-white">{user.email}</span>. Keep the
+            page clean, recognisable, and easy to trust at first glance.
           </p>
         </div>
 
@@ -253,7 +258,7 @@ export function OnboardingForm() {
               id="bio"
               value={form.bio}
               onChange={(event) => updateField("bio", event.target.value)}
-              placeholder="Describe your style, signature finish, and the kind of client experience you create."
+              placeholder="Describe your taste, signature finish, and the kind of client experience you create."
             />
           </div>
 
@@ -317,13 +322,14 @@ export function OnboardingForm() {
             <label className="field-label mb-0">Specialties</label>
             <div className="flex flex-wrap gap-3">
               {artistSpecialties.map((specialty) => {
-                const selected = form.specialty.includes(specialty.toLowerCase());
+                const slug = specialty.toLowerCase();
+                const selected = form.specialty.includes(slug);
 
                 return (
                   <button
                     key={specialty}
                     type="button"
-                    onClick={() => toggleSpecialty(specialty.toLowerCase())}
+                    onClick={() => toggleSpecialty(slug)}
                     className={`rounded-full border px-4 py-2 text-sm transition ${
                       selected
                         ? "border-[var(--accent-color)] bg-[rgba(232,174,183,0.12)] text-white"
@@ -367,26 +373,25 @@ export function OnboardingForm() {
       <div className="grid gap-5">
         <Card className="space-y-4">
           <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-            Publish rules
+            Profile guidance
           </p>
           <ul className="space-y-3 text-sm leading-7 text-[var(--text-muted)]">
-            <li>Full name and username are always required.</li>
-            <li>Published profiles also require location and at least one specialty.</li>
-            <li>Username is normalized to lowercase before the request is sent.</li>
-            <li>Empty optional fields are cleared to `null` on save.</li>
+            {profileGuidance.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
           </ul>
         </Card>
 
         <Card className="space-y-4">
           <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-            Save result
+            Live preview
           </p>
           {savedProfile ? (
             <div className="space-y-4">
               <div className="rounded-[24px] border border-white/10 bg-black/20 p-5">
                 <p className="text-lg font-semibold text-white">{savedProfile.fullName}</p>
                 <p className="mt-1 text-sm text-[var(--text-muted)]">
-                  @{savedProfile.username} · {savedProfile.location ?? "Location pending"}
+                  @{savedProfile.username} / {savedProfile.location ?? "Location pending"}
                 </p>
                 <p className="mt-3 text-sm leading-7 text-[var(--text-muted)]">
                   {savedProfile.bio ?? "No bio saved yet."}
@@ -399,13 +404,13 @@ export function OnboardingForm() {
               ) : (
                 <StatusNotice
                   title="Draft only"
-                  description="This profile is saved, but it is not publicly accessible until publishing is enabled."
+                  description="This page is saved, but it is still private until publishing is turned on."
                 />
               )}
             </div>
           ) : (
             <p className="text-sm leading-7 text-[var(--text-muted)]">
-              Save once to see the exact response returned by the artist profile endpoint.
+              Save once to preview the way your public page is starting to read.
             </p>
           )}
         </Card>

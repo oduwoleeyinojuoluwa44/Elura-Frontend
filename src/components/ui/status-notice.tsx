@@ -12,10 +12,10 @@ interface StatusNoticeProps {
 }
 
 const toneClasses: Record<StatusTone, string> = {
-  info: "border-white/10 bg-white/5 text-white",
+  info: "border-[var(--border-color)] bg-[rgba(255,255,255,0.03)] text-white",
   success:
-    "border-[rgba(232,174,183,0.35)] bg-[rgba(232,174,183,0.1)] text-white",
-  error: "border-[rgba(245,179,193,0.32)] bg-[rgba(245,179,193,0.08)] text-white",
+    "border-[rgba(232,174,183,0.28)] bg-[rgba(232,174,183,0.08)] text-white",
+  error: "border-[rgba(245,179,193,0.24)] bg-[rgba(245,179,193,0.06)] text-white",
 };
 
 export function StatusNotice({
@@ -27,7 +27,7 @@ export function StatusNotice({
   return (
     <div
       className={cn(
-        "rounded-[22px] border p-4 backdrop-blur-sm",
+        "rounded-[24px] border p-4 shadow-[0_18px_48px_rgba(0,0,0,0.12)] backdrop-blur-[22px]",
         toneClasses[tone],
       )}
     >
@@ -43,4 +43,3 @@ export function StatusNotice({
     </div>
   );
 }
-

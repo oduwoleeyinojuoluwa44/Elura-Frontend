@@ -26,15 +26,15 @@ export function SectionHeading({
     >
       <div className="space-y-3">
         {eyebrow ? (
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--accent-color)]">
+          <p className="eyebrow-chip w-max">
             {eyebrow}
           </p>
         ) : null}
-        <h2 className="font-display text-3xl leading-tight text-white md:text-5xl">
+        <h2 className="max-w-[780px] font-display text-[2.5rem] leading-[0.96] tracking-[-0.05em] text-white md:text-[4rem]">
           {title}
         </h2>
         {description ? (
-          <p className="max-w-2xl text-sm leading-7 text-[var(--text-muted)] md:text-base">
+          <p className="max-w-[600px] text-[1rem] leading-8 text-[var(--text-muted)] md:text-[1.08rem]">
             {description}
           </p>
         ) : null}
@@ -43,4 +43,3 @@ export function SectionHeading({
     </div>
   );
 }
-

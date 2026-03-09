@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Allura } from "next/font/google";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 
 import "./globals.css";
 
-const inter = Inter({
+const allura = Allura({
   subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  variable: "--font-cormorant",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-allura",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -33,10 +28,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${cormorant.variable}`}>
+      <body className={allura.variable}>
         <div className="page-shell">
-          <div className="ambient-orb left-[-120px] top-14 h-80 w-80 bg-[var(--accent-color)]" />
-          <div className="ambient-orb right-[-90px] top-72 h-72 w-72 bg-[#fce4ea]" />
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />

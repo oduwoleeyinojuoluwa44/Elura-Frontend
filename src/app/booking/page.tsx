@@ -7,16 +7,15 @@ import { eventTypes } from "@/lib/constants/site";
 
 export default function BookingPage() {
   return (
-    <div className="mx-auto max-w-7xl space-y-8 px-5 py-16 md:px-8">
-      <div className="space-y-3">
+    <div className="app-page space-y-8">
+      <div className="app-intro">
         <p className="eyebrow-chip w-max">Structured inquiry</p>
-        <h1 className="font-display text-5xl text-white">
+        <h1 className="app-title">
           A booking form that feels fast, clear, and serious.
         </h1>
-        <p className="max-w-3xl text-sm leading-7 text-[var(--text-muted)]">
-          The request payload follows the documented `camelCase` contract and is
-          ready to map to the reserved booking endpoint when the backend behavior
-          becomes fully implemented.
+        <p className="app-copy">
+          This part of Elura is still opening up. The shape is here so the future
+          request flow can feel clean from day one.
         </p>
       </div>
 
@@ -74,26 +73,27 @@ export default function BookingPage() {
               placeholder="Share the event context, preferred finish, venue timing, and anything the artist should prepare for."
             />
           </div>
-          <Button size="lg">Send booking request</Button>
+          <Button size="lg" disabled>
+            Send booking request
+          </Button>
         </Card>
 
         <Card className="space-y-5">
           <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-            Backend contract reminder
+            Coming soon
           </p>
           <div className="space-y-4 text-sm leading-7 text-[var(--text-muted)]">
             <p>
-              `POST /api/booking-requests` is currently reserved, so the form
-              should not promise successful submission in production yet.
+              Soon, clients will be able to send clear event details without the usual
+              back-and-forth in DMs.
             </p>
             <p>
-              Frontend handling is still ready: user-fixable `400` errors,
-              visible success state once implemented, and a clear feature-not-ready
-              fallback for `501`.
+              The goal is simple: one thoughtful request, one calm response, and a much
+              better first interaction for both sides.
             </p>
             <p>
-              The contract supports optional `clientEmail`, `clientPhone`, and
-              `eventDate`, while keeping the message required.
+              Until then, this page stays as a preview of the direction rather than a
+              live submission flow.
             </p>
           </div>
         </Card>

@@ -47,7 +47,7 @@ export function ArtistProfileClient({ username }: ArtistProfileClientProps) {
                 : "Could not load artist profile",
             description:
               response.error.code === "NOT_FOUND"
-                ? "This public profile is either unpublished or does not exist yet."
+                ? "This page is either still private or not available yet."
                 : response.error.message,
           });
           setResolved(true);
@@ -65,9 +65,8 @@ export function ArtistProfileClient({ username }: ArtistProfileClientProps) {
         setArtist(null);
         setNotice({
           tone: "error",
-          title: "Network error",
-          description:
-            "The public artist endpoint could not be reached. Confirm the backend is running.",
+          title: "Could not load this page",
+          description: "Please try again in a moment.",
         });
         setResolved(true);
       }
@@ -126,7 +125,7 @@ export function ArtistProfileClient({ username }: ArtistProfileClientProps) {
           </div>
           <div className="space-y-6 p-8">
             <div className="space-y-3">
-              <p className="eyebrow-chip w-max">Live artist endpoint</p>
+              <p className="eyebrow-chip w-max">Artist profile</p>
               <h1 className="font-display text-5xl text-white">{artist.fullName}</h1>
               <p className="max-w-2xl text-sm leading-7 text-[var(--text-muted)]">
                 {artist.bio ?? "This artist has not added a public bio yet."}
@@ -181,7 +180,7 @@ export function ArtistProfileClient({ username }: ArtistProfileClientProps) {
                   </Button>
                 </Link>
               ) : null}
-              <Button disabled>Booking requests soon</Button>
+              <Button disabled>Request booking soon</Button>
             </div>
           </div>
         </div>
@@ -189,12 +188,12 @@ export function ArtistProfileClient({ username }: ArtistProfileClientProps) {
 
       <Card className="space-y-4">
         <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-          Portfolio status
+          Portfolio
         </p>
-        <StatusNotice
-          title="Portfolio endpoint is not implemented yet"
-          description="This public page only renders fields available from the live artist profile endpoint. Portfolio display will land when portfolio APIs move out of reserved status."
-        />
+        <p className="text-sm leading-7 text-[var(--text-muted)]">
+          A fuller image-led gallery is opening soon. For now, this page focuses on the
+          artist&apos;s profile, specialties, price range, and contact presence.
+        </p>
       </Card>
     </div>
   );

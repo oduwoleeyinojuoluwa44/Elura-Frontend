@@ -2,15 +2,15 @@ import { OnboardingForm } from "@/components/forms/onboarding-form";
 
 export default function OnboardingPage() {
   return (
-    <div className="mx-auto max-w-7xl space-y-8 px-5 py-16 md:px-8">
-      <div className="space-y-3">
+    <div className="app-page space-y-8">
+      <div className="app-intro">
         <p className="eyebrow-chip w-max">Profile setup</p>
-        <h1 className="font-display text-5xl text-white">
-          Build a profile that feels bookable before the first inquiry arrives.
+        <h1 className="app-title">
+          Shape the page clients will decide from.
         </h1>
-        <p className="max-w-3xl text-sm leading-7 text-[var(--text-muted)]">
-          The live onboarding flow saves directly to the artist profile endpoint, so this
-          screen now behaves like product instead of placeholder scaffolding.
+        <p className="app-copy">
+          Keep it direct. Name, city, specialties, price range, and a short sense of
+          your taste are enough to make the page feel complete.
         </p>
       </div>
 

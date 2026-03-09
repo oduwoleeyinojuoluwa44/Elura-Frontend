@@ -1,37 +1,67 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { AuthActions } from "@/components/layout/auth-actions";
 import { navLinks } from "@/lib/constants/site";
+import { cn } from "@/lib/utils/cn";
 
 export function SiteHeader() {
+  const pathname = usePathname();
+  const isAuthRoute = pathname.startsWith("/signup");
+  const isLandingRoute = pathname === "/";
+
+  if (isLandingRoute) {
+    return (
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-40">
+        <div className="mx-auto max-w-[1200px] px-5 py-6 md:px-8 md:py-7">
+          <Link href="/" className="pointer-events-auto inline-block">
+            <span className="brand-wordmark text-[2.9rem] md:text-[4rem]">
+              Elura.
+            </span>
+          </Link>
+        </div>
+      </header>
+    );
+  }
+
   return (
-    <header className="sticky top-0 z-40 border-b border-white/6 bg-[rgba(11,11,15,0.72)] backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 md:px-8">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm font-semibold text-[var(--accent-color)]">
-            E
-          </div>
-          <div>
-            <p className="font-display text-2xl leading-none text-white">Elura</p>
-            <p className="text-xs uppercase tracking-[0.24em] text-white/35">
-              beauty booking
-            </p>
-          </div>
+    <header
+      className={cn(
+        "sticky top-0 z-40 backdrop-blur-[24px]",
+        isAuthRoute
+          ? "bg-[rgba(11,11,15,0.18)]"
+          : "border-b border-white/6 bg-[rgba(11,11,15,0.42)]",
+      )}
+    >
+      <div
+        className={cn(
+          "mx-auto flex items-center gap-6 px-5 py-4 md:px-8",
+          isAuthRoute ? "max-w-[1200px] justify-center sm:justify-start" : "max-w-[1200px] justify-between",
+        )}
+      >
+        <Link href="/" className="inline-block">
+          <span className="brand-wordmark text-[2.3rem] md:text-[2.85rem]">Elura.</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm text-[var(--text-muted)] transition hover:text-white"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        {isAuthRoute ? null : (
+          <>
+            <nav className="hidden items-center gap-6 md:flex">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-[var(--text-muted)] transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
 
-        <AuthActions />
+            <AuthActions />
+          </>
+        )}
       </div>
     </header>
   );

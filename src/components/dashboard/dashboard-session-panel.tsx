@@ -67,7 +67,7 @@ export function DashboardSessionPanel() {
         <StatusNotice
           tone="error"
           title="You are signed out"
-          description={notice ?? "Sign in again to access the artist dashboard."}
+          description={notice ?? "Sign in again to return to your studio."}
           action={
             <Link href="/signup?mode=signin">
               <Button variant="secondary">Go to sign in</Button>
@@ -85,16 +85,15 @@ export function DashboardSessionPanel() {
           <ShieldCheck size={18} />
         </div>
         <div>
-          <p className="text-sm font-semibold text-white">Authenticated session</p>
+          <p className="text-sm font-semibold text-white">You&apos;re inside Elura</p>
           <p className="text-sm text-[var(--text-muted)]">{user.email}</p>
         </div>
       </div>
 
       <div className="rounded-[24px] border border-white/10 bg-black/20 p-5">
         <p className="text-sm leading-7 text-[var(--text-muted)]">
-          The current dashboard can verify auth state and sign out through the
-          implemented auth endpoints. Profile creation and updates continue in onboarding
-          until a dedicated read endpoint for the current artist profile exists.
+          Keep the public page current, publish when it feels finished, and send
+          clients somewhere that reflects the quality of your work.
         </p>
       </div>
 
@@ -128,4 +127,3 @@ export function DashboardSessionPanel() {
     </Card>
   );
 }
-

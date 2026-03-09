@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Chrome, LoaderCircle, LockKeyhole, MailCheck, Sparkles } from "lucide-react";
+import { Chrome, LoaderCircle, LockKeyhole, MailCheck } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
 
 import { signIn, signUp } from "@/lib/api/auth";
@@ -37,6 +37,14 @@ export function AuthPanel({ initialMode = "sign-up" }: AuthPanelProps) {
 
   const submitLabel = mode === "sign-up" ? "Create account" : "Sign in";
 
+  function switchMode(nextMode: AuthMode) {
+    setMode(nextMode);
+    setNotice(null);
+    router.replace(nextMode === "sign-in" ? "/signup?mode=signin" : "/signup", {
+      scroll: false,
+    });
+  }
+
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setNotice(null);
@@ -71,8 +79,7 @@ export function AuthPanel({ initialMode = "sign-up" }: AuthPanelProps) {
           setNotice({
             tone: "success",
             title: "Check your inbox",
-            description:
-              "Your account is ready. Use the email confirmation link to activate the session, then continue to onboarding.",
+            description: "Confirm your email, then continue into your profile setup.",
           });
           return;
         }
@@ -82,177 +89,126 @@ export function AuthPanel({ initialMode = "sign-up" }: AuthPanelProps) {
       } catch {
         setNotice({
           tone: "error",
-          title: "Network error",
-          description:
-            "We could not reach the backend. Confirm the API server is running and try again.",
+          title: "Something went wrong",
+          description: "We could not complete that right now. Please try again.",
         });
       }
     });
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr]">
-      <Card className="space-y-6">
-        <div className="flex gap-2 rounded-full border border-white/10 bg-white/5 p-1">
-          {[
-            { key: "sign-up", label: "Create account" },
-            { key: "sign-in", label: "Sign in" },
-          ].map((tab) => {
-            const active = mode === tab.key;
+    <Card className="relative z-10 w-full max-w-[34rem] border-white/12 bg-[rgba(9,9,13,0.74)] p-6 sm:p-7">
+      <div className="relative grid grid-cols-2 rounded-full border border-white/10 bg-white/5 p-1">
+        <span
+          aria-hidden="true"
+          className={`absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-[linear-gradient(135deg,var(--accent-color),#c88c96)] shadow-[0_14px_28px_rgba(232,174,183,0.16)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            mode === "sign-in" ? "translate-x-full" : "translate-x-0"
+          }`}
+        />
+        {[
+          { key: "sign-up", label: "Create account" },
+          { key: "sign-in", label: "Sign in" },
+        ].map((tab) => {
+          const active = mode === tab.key;
 
-            return (
-              <button
-                key={tab.key}
-                type="button"
-                onClick={() => setMode(tab.key as AuthMode)}
-                className={`flex-1 rounded-full px-4 py-3 text-sm font-medium transition ${
-                  active
-                    ? "bg-[linear-gradient(135deg,var(--accent-color),#c88c96)] text-[var(--bg-color)]"
-                    : "text-[var(--text-muted)] hover:text-white"
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => switchMode(tab.key as AuthMode)}
+              className={`relative z-10 rounded-full px-4 py-3 text-sm font-medium transition-[color,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                active
+                  ? "text-[var(--bg-color)]"
+                  : "text-[var(--text-muted)] hover:text-white"
+              }`}
+            >
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
 
-        <div className="space-y-3">
-          <p className="eyebrow-chip w-max">Artist access</p>
-          <h1 className="font-display text-5xl text-white">
-            {mode === "sign-up"
-              ? "Start the professional version of your beauty business."
-              : "Return to your artist workspace."}
-          </h1>
-          <p className="max-w-xl text-sm leading-7 text-[var(--text-muted)]">
-            {mode === "sign-up"
-              ? "Email auth is fully wired to the implemented backend. Signup stays intentionally light so profile quality can happen in onboarding."
-              : "Session auth uses the documented cookie flow. Once signed in, the dashboard and profile setup use the same backend truth."}
-          </p>
-        </div>
+      <div className="mt-8 space-y-3">
+        <p className="eyebrow-chip w-max">Artist access</p>
+        <h1 className="font-display text-5xl leading-[0.94] text-white sm:text-6xl">
+          {mode === "sign-up" ? "Create your account." : "Welcome back."}
+        </h1>
+        <p className="max-w-lg text-sm leading-7 text-[var(--text-muted)]">
+          {mode === "sign-up"
+            ? "Use email to enter Elura. Google sign-in stays as a placeholder for now."
+            : "Sign in to continue into your profile and studio."}
+        </p>
+      </div>
 
-        {notice ? (
+      {notice ? (
+        <div className="mt-6">
           <StatusNotice
             tone={notice.tone}
             title={notice.title}
             description={notice.description}
           />
-        ) : null}
-
-        <form className="grid gap-4" onSubmit={onSubmit}>
-          <div>
-            <label htmlFor="auth-email" className="field-label">
-              Email
-            </label>
-            <Input
-              id="auth-email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="artist@example.com"
-            />
-          </div>
-          <div>
-            <label htmlFor="auth-password" className="field-label">
-              Password
-            </label>
-            <Input
-              id="auth-password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Minimum 8 characters"
-            />
-          </div>
-          <Button
-            type="submit"
-            size="lg"
-            disabled={isPending}
-            icon={
-              isPending ? (
-                <LoaderCircle className="animate-spin" size={16} />
-              ) : mode === "sign-up" ? (
-                <MailCheck size={16} />
-              ) : (
-                <LockKeyhole size={16} />
-              )
-            }
-          >
-            {isPending ? "Please wait" : submitLabel}
-          </Button>
-        </form>
-
-        <div className="space-y-3 rounded-[26px] border border-dashed border-white/12 bg-black/15 p-5">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="text-sm font-semibold text-white">Google sign-in</p>
-              <p className="text-sm leading-6 text-[var(--text-muted)]">
-                Placeholder only for now. Email auth is the active path.
-              </p>
-            </div>
-            <span className="rounded-full border border-white/12 bg-white/5 px-3 py-1 text-xs text-white/65">
-              Coming soon
-            </span>
-          </div>
-          <Button variant="secondary" size="lg" disabled icon={<Chrome size={16} />}>
-            Continue with Google
-          </Button>
         </div>
-      </Card>
+      ) : null}
 
-      <Card className="space-y-6">
+      <form className="mt-8 grid gap-4" onSubmit={onSubmit}>
         <div>
-          <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-            Implemented auth endpoints
-          </p>
-          <h2 className="mt-2 font-display text-4xl text-white">
-            The frontend now respects the real contract instead of pretending the flow exists.
-          </h2>
+          <label htmlFor="auth-email" className="field-label">
+            Email
+          </label>
+          <Input
+            id="auth-email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="artist@example.com"
+          />
         </div>
+        <div>
+          <label htmlFor="auth-password" className="field-label">
+            Password
+          </label>
+          <Input
+            id="auth-password"
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Minimum 8 characters"
+          />
+        </div>
+        <Button
+          type="submit"
+          size="lg"
+          disabled={isPending}
+          icon={
+            isPending ? (
+              <LoaderCircle className="animate-spin" size={16} />
+            ) : mode === "sign-up" ? (
+              <MailCheck size={16} />
+            ) : (
+              <LockKeyhole size={16} />
+            )
+          }
+        >
+          {isPending ? "Please wait" : submitLabel}
+        </Button>
+      </form>
 
-        <div className="grid gap-4">
-          <div className="rounded-[24px] border border-white/10 bg-black/20 p-5">
-            <p className="text-sm font-semibold text-white">POST /api/auth/sign-up</p>
-            <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
-              Creates the account and tells the UI whether email confirmation is still required.
+      <div className="mt-6 rounded-[24px] border border-dashed border-white/12 bg-black/20 p-4">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-white">Google sign-in</p>
+            <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
+              Placeholder only for now.
             </p>
           </div>
-          <div className="rounded-[24px] border border-white/10 bg-black/20 p-5">
-            <p className="text-sm font-semibold text-white">POST /api/auth/sign-in</p>
-            <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
-              Establishes the cookie-backed session that powers onboarding and dashboard access.
-            </p>
-          </div>
-          <div className="rounded-[24px] border border-white/10 bg-black/20 p-5">
-            <p className="text-sm font-semibold text-white">GET /auth/confirm</p>
-            <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
-              Browser navigation only. The UI now explains that this route should never be called with `fetch`.
-            </p>
-          </div>
-          <div className="rounded-[24px] border border-white/10 bg-black/20 p-5">
-            <p className="text-sm font-semibold text-white">GET /api/auth/me</p>
-            <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
-              Used in the header and dashboard so session state comes from the backend truth.
-            </p>
-          </div>
+          <span className="rounded-full border border-white/12 bg-white/5 px-3 py-1 text-xs text-white/65">
+            Soon
+          </span>
         </div>
-
-        <div className="rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-6">
-          <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[rgba(232,174,183,0.16)] text-[var(--accent-color)]">
-              <Sparkles size={20} />
-            </div>
-            <div className="space-y-2">
-              <p className="text-lg font-semibold text-white">What happens next</p>
-              <p className="text-sm leading-7 text-[var(--text-muted)]">
-                After sign-in, artists move straight into profile setup where the implemented
-                `POST /api/artists` endpoint becomes the working save action.
-              </p>
-            </div>
-          </div>
-        </div>
-      </Card>
-    </div>
+        <Button className="mt-4 w-full" variant="secondary" size="lg" disabled icon={<Chrome size={16} />}>
+          Continue with Google
+        </Button>
+      </div>
+    </Card>
   );
 }
-
