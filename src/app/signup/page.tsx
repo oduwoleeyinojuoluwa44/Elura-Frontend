@@ -6,11 +6,11 @@ import { Card } from "@/components/ui/card";
 
 function AuthPanelFallback() {
   return (
-    <Card className="relative z-10 w-full max-w-[34rem] space-y-5 border-white/12 bg-[rgba(9,9,13,0.74)] p-6 sm:p-7">
-      <div className="h-12 w-full animate-pulse rounded-full bg-white/10" />
-      <div className="h-20 w-3/4 animate-pulse rounded-[28px] bg-white/10" />
-      <div className="h-12 w-full animate-pulse rounded-2xl bg-white/10" />
-      <div className="h-12 w-full animate-pulse rounded-2xl bg-white/10" />
+    <Card className="relative z-10 w-full max-w-[29rem] space-y-4 border-white/12 bg-[rgba(9,9,13,0.74)] p-5 sm:p-6">
+      <div className="h-11 w-full animate-pulse rounded-full bg-white/10" />
+      <div className="h-16 w-2/3 animate-pulse rounded-[24px] bg-white/10" />
+      <div className="h-11 w-full animate-pulse rounded-2xl bg-white/10" />
+      <div className="h-11 w-full animate-pulse rounded-2xl bg-white/10" />
       <div className="h-14 w-full animate-pulse rounded-full bg-white/10" />
     </Card>
   );

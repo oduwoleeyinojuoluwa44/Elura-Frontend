@@ -97,7 +97,7 @@ export function AuthPanel({ initialMode = "sign-up" }: AuthPanelProps) {
   }
 
   return (
-    <Card className="relative z-10 w-full max-w-[34rem] border-white/12 bg-[rgba(9,9,13,0.74)] p-6 sm:p-7">
+    <Card className="relative z-10 w-full max-w-[29rem] border-white/12 bg-[rgba(9,9,13,0.74)] p-5 sm:p-6">
       <div className="relative grid grid-cols-2 rounded-full border border-white/10 bg-white/5 p-1">
         <span
           aria-hidden="true"
@@ -128,12 +128,12 @@ export function AuthPanel({ initialMode = "sign-up" }: AuthPanelProps) {
         })}
       </div>
 
-      <div className="mt-8 space-y-3">
+      <div className="mt-6 space-y-2.5">
         <p className="eyebrow-chip w-max">Artist access</p>
-        <h1 className="font-display text-5xl leading-[0.94] text-white sm:text-6xl">
+        <h1 className="font-display text-[2.75rem] leading-[0.94] text-white sm:text-[3.5rem]">
           {mode === "sign-up" ? "Create your account." : "Welcome back."}
         </h1>
-        <p className="max-w-lg text-sm leading-7 text-[var(--text-muted)]">
+        <p className="max-w-md text-sm leading-6 text-[var(--text-muted)]">
           {mode === "sign-up"
             ? "Use email to enter Elura. Google sign-in stays as a placeholder for now."
             : "Sign in to continue into your profile and studio."}
@@ -141,7 +141,7 @@ export function AuthPanel({ initialMode = "sign-up" }: AuthPanelProps) {
       </div>
 
       {notice ? (
-        <div className="mt-6">
+        <div className="mt-5">
           <StatusNotice
             tone={notice.tone}
             title={notice.title}
@@ -150,7 +150,7 @@ export function AuthPanel({ initialMode = "sign-up" }: AuthPanelProps) {
         </div>
       ) : null}
 
-      <form className="mt-8 grid gap-4" onSubmit={onSubmit}>
+      <form className="mt-6 grid gap-3.5" onSubmit={onSubmit}>
         <div>
           <label htmlFor="auth-email" className="field-label">
             Email
@@ -193,11 +193,11 @@ export function AuthPanel({ initialMode = "sign-up" }: AuthPanelProps) {
         </Button>
       </form>
 
-      <div className="mt-6 rounded-[24px] border border-dashed border-white/12 bg-black/20 p-4">
+      <div className="mt-5 rounded-[22px] border border-dashed border-white/12 bg-black/20 p-3.5">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-sm font-semibold text-white">Google sign-in</p>
-            <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
+            <p className="mt-1 text-sm leading-5 text-[var(--text-muted)]">
               Placeholder only for now.
             </p>
           </div>
