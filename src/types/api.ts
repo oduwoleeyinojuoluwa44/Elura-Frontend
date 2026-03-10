@@ -52,6 +52,10 @@ export interface ArtistProfile {
   updatedAt: string;
 }
 
+export interface ArtistProfileDetail extends ArtistProfile {
+  portfolioImages: PortfolioImage[];
+}
+
 export interface UpsertArtistProfileRequest {
   fullName: string;
   username: string;
@@ -133,4 +137,3 @@ export interface HealthResponse {
   status: "ok";
   service: "elura-backend";
 }
-

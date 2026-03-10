@@ -6,11 +6,11 @@ export default function OnboardingPage() {
       <div className="app-intro">
         <p className="eyebrow-chip w-max">Profile setup</p>
         <h1 className="app-title">
-          Shape the page clients will decide from.
+          Build the page clients will choose from.
         </h1>
         <p className="app-copy">
-          Keep it direct. Name, city, specialties, price range, and a short sense of
-          your taste are enough to make the page feel complete.
+          Save the draft first, add the portfolio images that prove the work, then
+          publish once the page feels complete.
         </p>
       </div>
 

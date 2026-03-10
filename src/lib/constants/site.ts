@@ -1,6 +1,6 @@
 export const navLinks = [
   { href: "/discover", label: "Discover" },
-  { href: "/onboarding", label: "Profile Setup" },
+  { href: "/onboarding", label: "Profile Studio" },
   { href: "/dashboard", label: "Dashboard" },
 ] as const;
 

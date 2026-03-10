@@ -27,7 +27,7 @@ export function SiteFooter() {
             Dashboard
           </Link>
           <Link href="/onboarding" className="transition hover:text-white">
-            Profile setup
+            Profile studio
           </Link>
         </div>
       </div>

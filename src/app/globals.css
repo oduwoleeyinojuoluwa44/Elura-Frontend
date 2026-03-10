@@ -10,6 +10,10 @@
   --card-bg: rgba(255, 255, 255, 0.03);
   --glow-color: rgba(232, 174, 183, 0.4);
   --brand-wordmark-color: #d8a5af;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-fast: 240ms;
+  --motion-medium: 280ms;
+  --motion-slow: 340ms;
   --shell-gradient:
     radial-gradient(ellipse at 15% 10%, rgba(244, 240, 244, 0.15) 0%, rgba(11, 11, 15, 0.94) 48%, rgba(11, 11, 15, 1) 100%);
   --font-general-sans: "General Sans";
@@ -127,6 +131,51 @@ img {
   color: var(--text-muted);
 }
 
+.surface-transition {
+  transition-property:
+    background-color,
+    border-color,
+    box-shadow,
+    color,
+    filter,
+    opacity,
+    transform;
+  transition-duration: var(--motion-medium);
+  transition-timing-function: var(--motion-ease);
+}
+
+@keyframes surface-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes gallery-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.stage-panel {
+  animation: surface-rise var(--motion-slow) var(--motion-ease) both;
+}
+
+.gallery-enter {
+  animation: gallery-rise 360ms var(--motion-ease) both;
+}
+
 @keyframes home-rise {
   from {
     opacity: 0;
@@ -141,12 +190,12 @@ img {
 
 .home-reveal {
   opacity: 0;
-  animation: home-rise 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: home-rise 0.72s var(--motion-ease) forwards;
 }
 
 .home-card {
   opacity: 0;
-  animation: home-rise 0.64s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: home-rise 0.64s var(--motion-ease) forwards;
 }
 
 @media (min-width: 768px) {

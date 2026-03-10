@@ -92,14 +92,14 @@ export function DashboardSessionPanel() {
 
       <div className="rounded-[24px] border border-white/10 bg-black/20 p-5">
         <p className="text-sm leading-7 text-[var(--text-muted)]">
-          Keep the public page current, publish when it feels finished, and send
-          clients somewhere that reflects the quality of your work.
+          Keep the public page current and send clients to one calm, focused destination
+          that reflects the quality of your work.
         </p>
       </div>
 
       <div className="flex flex-wrap gap-3">
         <Link href="/onboarding">
-          <Button variant="secondary">Edit profile</Button>
+          <Button variant="secondary">Profile studio</Button>
         </Link>
         <Link href="/discover">
           <Button variant="ghost">View discovery</Button>

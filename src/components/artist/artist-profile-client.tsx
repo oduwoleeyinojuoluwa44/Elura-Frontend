@@ -9,7 +9,7 @@ import { getArtist } from "@/lib/api/artists";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StatusNotice } from "@/components/ui/status-notice";
-import type { ArtistProfile } from "~types/api";
+import type { ArtistProfileDetail } from "~types/api";
 
 interface ArtistProfileClientProps {
   username: string;
@@ -19,7 +19,7 @@ const fallbackImage =
   "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80";
 
 export function ArtistProfileClient({ username }: ArtistProfileClientProps) {
-  const [artist, setArtist] = useState<ArtistProfile | null>(null);
+  const [artist, setArtist] = useState<ArtistProfileDetail | null>(null);
   const [resolved, setResolved] = useState(false);
   const [notice, setNotice] = useState<{
     tone: "info" | "success" | "error";
@@ -85,6 +85,20 @@ export function ArtistProfileClient({ username }: ArtistProfileClientProps) {
     }
 
     return `https://instagram.com/${artist.instagramHandle.replace(/^@/, "")}`;
+  }, [artist]);
+
+  const orderedPortfolioImages = useMemo(() => {
+    if (!artist) {
+      return [];
+    }
+
+    return [...artist.portfolioImages].sort((left, right) => {
+      if (left.sortOrder !== right.sortOrder) {
+        return left.sortOrder - right.sortOrder;
+      }
+
+      return left.createdAt.localeCompare(right.createdAt);
+    });
   }, [artist]);
 
   if (!resolved) {
@@ -180,21 +194,62 @@ export function ArtistProfileClient({ username }: ArtistProfileClientProps) {
                   </Button>
                 </Link>
               ) : null}
-              <Button disabled>Request booking soon</Button>
             </div>
           </div>
         </div>
       </Card>
 
-      <Card className="space-y-4">
-        <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
-          Portfolio
-        </p>
-        <p className="text-sm leading-7 text-[var(--text-muted)]">
-          A fuller image-led gallery is opening soon. For now, this page focuses on the
-          artist&apos;s profile, specialties, price range, and contact presence.
-        </p>
-      </Card>
+      {orderedPortfolioImages.length > 0 ? (
+        <section className="space-y-4">
+          <div className="flex items-end justify-between gap-4">
+            <div className="space-y-2">
+              <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent-color)]">
+                Portfolio
+              </p>
+              <p className="text-sm leading-7 text-[var(--text-muted)]">
+                Selected work, ordered to read with the page rather than overwhelm it.
+              </p>
+            </div>
+            <p className="text-sm text-[var(--text-muted)]">
+              {orderedPortfolioImages.length} image
+              {orderedPortfolioImages.length === 1 ? "" : "s"}
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {orderedPortfolioImages.map((image, index) => (
+              <Card
+                key={image.id}
+                className="gallery-enter overflow-hidden p-0"
+                style={{ animationDelay: `${index * 70}ms` }}
+              >
+                <div className="relative aspect-[4/5]">
+                  <Image
+                    src={image.imageUrl}
+                    alt={image.caption ?? `${artist.fullName} portfolio image ${index + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="space-y-2 p-5">
+                  <p className="text-sm font-medium text-white">
+                    {image.caption ?? "Portfolio image"}
+                  </p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-muted)]">
+                    Order {image.sortOrder}
+                  </p>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </section>
+      ) : (
+        <StatusNotice
+          title="No portfolio images available"
+          description="This profile is live, but no gallery images are available right now."
+        />
+      )}
     </div>
   );
 }

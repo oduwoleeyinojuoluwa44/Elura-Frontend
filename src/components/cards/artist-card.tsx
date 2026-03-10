@@ -23,7 +23,7 @@ export function ArtistCard({ artist }: ArtistCardProps) {
           alt={artist.fullName}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
-          className="object-cover transition duration-500 group-hover:scale-[1.04]"
+          className="object-cover transition-transform duration-[360ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(11,11,15,0.9)] via-transparent to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -38,7 +38,7 @@ export function ArtistCard({ artist }: ArtistCardProps) {
           <p className="text-sm text-[var(--text-muted)]">{specialtyLabel}</p>
         </div>
         <p className="line-clamp-3 text-sm leading-6 text-[var(--text-muted)]">
-          {artist.bio ?? "Bio pending. This profile is published and ready for discovery."}
+          {artist.bio ?? "Profile details are still being refined."}
         </p>
         <div className="flex items-center justify-between gap-4 border-t border-white/10 pt-4">
           <span className="text-sm text-white/90">
@@ -46,7 +46,7 @@ export function ArtistCard({ artist }: ArtistCardProps) {
           </span>
           <Link
             href={`/artist/${artist.username}`}
-            className="text-sm font-medium text-[var(--accent-color)] transition hover:text-[#fce1e6]"
+            className="text-sm font-medium text-[var(--accent-color)] transition-colors duration-[280ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-[#fce1e6]"
           >
             View profile
           </Link>

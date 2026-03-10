@@ -21,6 +21,10 @@ This document is the single source of truth for the backend and frontend agents.
 - `Implemented`: frontend may build against it now.
 - `Reserved`: route exists, validation may exist, but success behavior is not complete. Frontend must not depend on successful business behavior yet.
 
+### Environment Rule
+
+- Implemented routes assume the target environment has the latest database migrations applied.
+
 ### Transport Rules
 
 - Base local URL: `http://localhost:3000`
@@ -229,6 +233,10 @@ export interface ArtistProfile {
   updatedAt: string;
 }
 
+export interface ArtistProfileDetail extends ArtistProfile {
+  portfolioImages: PortfolioImage[];
+}
+
 export interface UpsertArtistProfileRequest {
   fullName: string;
   username: string;
@@ -324,8 +332,8 @@ export interface HealthResponse {
 | `/auth/confirm` | `GET` | Implemented | No | Redirect | Browser navigation route |
 | `/api/artists` | `POST` | Implemented | Yes | `200` | Create or update current user profile |
 | `/api/artists` | `GET` | Implemented | No | `200` | Public published profiles only |
-| `/api/artists/[username]` | `GET` | Implemented | No | `200` | Public published profile only |
-| `/api/portfolio` | `POST` | Reserved | Yes | `501` today | Validation exists, persistence missing |
+| `/api/artists/[username]` | `GET` | Implemented | No | `200` | Public published profile with ordered portfolio images |
+| `/api/portfolio` | `POST` | Implemented | Yes | `201` | Creates portfolio image metadata for owned artist |
 | `/api/booking-requests` | `POST` | Reserved | No | `501` today | Validation exists, persistence missing |
 | `/api/ai/consultation-pack` | `POST` | Reserved | Yes | `501` today | Validation exists, AI generation missing |
 
@@ -584,6 +592,7 @@ If `isPublished` is `true`, these must exist:
 - `username`
 - `location`
 - at least one `specialty`
+- at least one portfolio image already attached to the artist profile
 
 Success `200`:
 
@@ -673,11 +682,14 @@ Frontend rules:
 - Use `price_range` in the URL, not `priceRange`.
 - Do not assume pagination exists yet.
 - Do not assume text search exists yet.
+- Discovery list items do not include `portfolioImages`.
+- Use `GET /api/artists/[username]` for the full public gallery payload.
 
 ### `GET /api/artists/[username]`
 
 Purpose:
 - fetch one public published artist profile by username
+- include ordered portfolio images for the public profile page
 
 Auth required:
 - No
@@ -703,7 +715,18 @@ Success `200`:
     "profileImageUrl": "https://example.com/profile.jpg",
     "isPublished": true,
     "createdAt": "2026-03-08T10:00:00.000Z",
-    "updatedAt": "2026-03-08T10:00:00.000Z"
+    "updatedAt": "2026-03-08T10:00:00.000Z",
+    "portfolioImages": [
+      {
+        "id": "uuid",
+        "artistId": "artist-uuid",
+        "imageUrl": "https://example.com/look.jpg",
+        "storagePath": "artist-uuid/look-1.jpg",
+        "caption": "Editorial bridal look",
+        "sortOrder": 0,
+        "createdAt": "2026-03-08T10:00:00.000Z"
+      }
+    ]
   }
 }
 ```
@@ -717,47 +740,76 @@ Frontend rules:
 - This is a public route.
 - Unpublished profiles are intentionally not visible here.
 
-## Reserved Endpoints
+## Remaining Reserved Endpoints
 
 These routes exist and are valid to document, but they are not complete product contracts yet. Frontend may define types from them, but should not build release-critical success flows against them until the backend feature is completed.
 
 ### `POST /api/portfolio`
 
 Stability:
-- Reserved
+- Implemented
 
 Auth required:
 - Yes
 
-Current request body:
+Request body:
 
 ```json
 {
   "artistId": "artist-uuid",
   "imageUrl": "https://example.com/look.jpg",
-  "storagePath": "portfolio/look.jpg",
+  "storagePath": "artist-uuid/look-1.jpg",
   "caption": "Editorial bridal look",
   "sortOrder": 0
 }
 ```
 
-Current request validation:
+Request validation:
 
 - `artistId` required
 - `imageUrl` required
 - `storagePath` required
 - `caption` optional string
 - `sortOrder` optional non-negative integer
+- `artistId` must belong to the authenticated user
+- `storagePath` must be inside the authenticated artist directory
 
-Current backend behavior:
+Storage path contract:
 
-- invalid request -> `400`
-- unauthenticated request -> `401`
-- valid request -> `501 NOT_IMPLEMENTED`
+- canonical frontend format: `{artistId}/{filename}`
+- backend also accepts `portfolio-images/{artistId}/{filename}` as a compatibility path
 
-Frontend rule:
+Success `201`:
 
-- Treat this endpoint as unavailable for production UI flow until the portfolio feature is implemented end-to-end.
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "artistId": "artist-uuid",
+    "imageUrl": "https://example.com/look.jpg",
+    "storagePath": "artist-uuid/look-1.jpg",
+    "caption": "Editorial bridal look",
+    "sortOrder": 0,
+    "createdAt": "2026-03-08T10:00:00.000Z"
+  }
+}
+```
+
+Failure contract:
+
+- `400` invalid request payload
+- `401` no valid session
+- `403` `artistId` does not belong to the authenticated user
+- `404` artist profile not found
+
+Frontend rules:
+
+- Create the artist profile before calling this route.
+- Use the current artist profile `id` as `artistId`.
+- Keep `storagePath` inside the artist directory.
+- After a successful create, refresh the public profile data from `GET /api/artists/[username]` if the UI needs the full ordered gallery.
+- Publishing should happen only after at least one successful portfolio image create.
 
 ### `POST /api/booking-requests`
 
@@ -882,6 +934,36 @@ Frontend rule:
 }
 ```
 
+### ArtistProfileDetail
+
+```json
+{
+  "id": "uuid",
+  "username": "jane_artist",
+  "fullName": "Jane Artist",
+  "bio": "Soft glam specialist",
+  "location": "Lagos",
+  "specialty": ["bridal", "editorial"],
+  "priceRange": "50000-100000",
+  "instagramHandle": "@janeartist",
+  "profileImageUrl": "https://example.com/profile.jpg",
+  "isPublished": true,
+  "createdAt": "2026-03-08T10:00:00.000Z",
+  "updatedAt": "2026-03-08T10:00:00.000Z",
+  "portfolioImages": [
+    {
+      "id": "uuid",
+      "artistId": "artist-uuid",
+      "imageUrl": "https://example.com/look.jpg",
+      "storagePath": "artist-uuid/look-1.jpg",
+      "caption": "Editorial bridal look",
+      "sortOrder": 0,
+      "createdAt": "2026-03-08T10:00:00.000Z"
+    }
+  ]
+}
+```
+
 ### PortfolioImage
 
 ```json
@@ -889,7 +971,7 @@ Frontend rule:
   "id": "uuid",
   "artistId": "artist-uuid",
   "imageUrl": "https://example.com/look.jpg",
-  "storagePath": "portfolio/look.jpg",
+  "storagePath": "artist-uuid/look-1.jpg",
   "caption": "Editorial bridal look",
   "sortOrder": 0,
   "createdAt": "2026-03-08T10:00:00.000Z"
@@ -959,7 +1041,27 @@ async function apiRequest<T>(input: RequestInfo, init?: RequestInit): Promise<Ap
 - Public discovery pages should use `GET /api/artists`.
 - Public artist profile pages should use `GET /api/artists/[username]`.
 - Profile edit screens should post to `POST /api/artists`.
-- Reserved endpoints should be hidden, flagged, or treated as unavailable until implemented.
+- Remaining reserved endpoints should be hidden, flagged, or treated as unavailable until implemented.
+
+### Recommended Frontend Happy Path
+
+Use this order for the current onboarding and portfolio flow:
+
+1. `POST /api/auth/sign-in`
+2. `GET /api/auth/me`
+3. `POST /api/artists` with `isPublished: false`
+4. read `data.id` from the profile response and treat it as the canonical `artistId`
+5. `POST /api/portfolio` one or more times using that `artistId`
+6. `POST /api/artists` again with `isPublished: true`
+7. `GET /api/artists/[username]` for the public preview payload
+8. `GET /api/artists` for discovery verification if needed
+
+Important:
+
+- `artistId` is the artist profile id, not the auth user id.
+- Trying to publish before step 5 should fail with `400`.
+- The discovery list is summary-only.
+- The public detail route is the gallery route.
 
 ## Backend Responsibilities
 

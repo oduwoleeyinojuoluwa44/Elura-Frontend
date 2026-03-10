@@ -58,7 +58,7 @@ export const mockPortfolio: PortfolioImage[] = [
     artistId: "artist-1",
     imageUrl:
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80",
-    storagePath: "portfolio/look-1.jpg",
+    storagePath: "artist-1/look-1.jpg",
     caption: "Clean bridal glow with soft rose accents.",
     sortOrder: 0,
     createdAt: "2026-03-08T10:00:00.000Z",
@@ -68,7 +68,7 @@ export const mockPortfolio: PortfolioImage[] = [
     artistId: "artist-1",
     imageUrl:
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=80",
-    storagePath: "portfolio/look-2.jpg",
+    storagePath: "artist-1/look-2.jpg",
     caption: "Warm skin prep, diffused contour, and glossy lip balance.",
     sortOrder: 1,
     createdAt: "2026-03-08T10:00:00.000Z",
@@ -78,7 +78,7 @@ export const mockPortfolio: PortfolioImage[] = [
     artistId: "artist-1",
     imageUrl:
       "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1200&q=80",
-    storagePath: "portfolio/look-3.jpg",
+    storagePath: "artist-1/look-3.jpg",
     caption: "Reception-ready glam that still reads natural in daylight.",
     sortOrder: 2,
     createdAt: "2026-03-08T10:00:00.000Z",

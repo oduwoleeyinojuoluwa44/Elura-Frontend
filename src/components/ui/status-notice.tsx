@@ -27,7 +27,7 @@ export function StatusNotice({
   return (
     <div
       className={cn(
-        "rounded-[24px] border p-4 shadow-[0_18px_48px_rgba(0,0,0,0.12)] backdrop-blur-[22px]",
+        "surface-transition rounded-[24px] border p-4 shadow-[0_18px_48px_rgba(0,0,0,0.12)] backdrop-blur-[22px]",
         toneClasses[tone],
       )}
     >

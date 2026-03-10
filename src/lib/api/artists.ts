@@ -1,5 +1,6 @@
 import { apiRequest } from "@/lib/api/client";
 import type {
+  ArtistProfileDetail,
   ArtistProfile,
   DiscoverArtistsQuery,
   UpsertArtistProfileRequest,
@@ -33,7 +34,7 @@ export function listArtists(query?: DiscoverArtistsQuery) {
 }
 
 export function getArtist(username: string) {
-  return apiRequest<ArtistProfile>(`/api/artists/${username}`);
+  return apiRequest<ArtistProfileDetail>(`/api/artists/${username}`);
 }
 
 export function upsertArtistProfile(payload: UpsertArtistProfileRequest) {
@@ -42,4 +43,3 @@ export function upsertArtistProfile(payload: UpsertArtistProfileRequest) {
     body: payload,
   });
 }
-
